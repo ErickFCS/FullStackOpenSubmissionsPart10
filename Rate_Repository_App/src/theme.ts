@@ -1,3 +1,5 @@
+type FontWeight = "400" | "700" | "normal" | "bold" | "100" | "200" | "300" | "500" | "600" | "800" | "900";
+
 const theme = {
   colors: {
     bsBodyColor: '#dee2e6',
@@ -48,8 +50,8 @@ const theme = {
     main: 'System',
   },
   fontWeights: {
-    normal: '400',
-    bold: '700',
+    normal: '400' as FontWeight,
+    bold: '700' as FontWeight,
   },
 };
 

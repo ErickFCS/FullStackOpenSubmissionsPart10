@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexShrink: 1,
     backgroundColor: theme.colors.bsBodyBg,
-    paddingLeft: 10,
   },
 });
 

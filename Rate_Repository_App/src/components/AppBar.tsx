@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: theme.colors.bsSecondaryBg,
-        marginStart: -10,
         padding: 10,
     },
     navLink: {
