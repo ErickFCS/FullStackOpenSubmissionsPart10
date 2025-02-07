@@ -1,5 +1,6 @@
 import { FlatList, View, StyleSheet } from 'react-native';
 import RepositoryItem from './RepositoryItem';
+import { useEffect, useState } from 'react';
 
 const styles = StyleSheet.create({
     separator: {
@@ -10,7 +11,7 @@ const styles = StyleSheet.create({
     }
 });
 
-const repositories = [
+const repositoriesM = [
     {
         id: 'jaredpalmer.formik',
         fullName: 'jaredpalmer/formik',
@@ -57,9 +58,54 @@ const repositories = [
     },
 ];
 
+interface Repo {
+    id: string;
+    name: string;
+    ownerName: string;
+    createdAt: string;
+    fullName: string;
+    description: string;
+    language: string;
+    forksCount: number;
+    stargazersCount: number;
+    ratingAverage: number;
+    reviewCount: number;
+    ownerAvatarUrl: string;
+};
+
+interface Res {
+    totalCount: number;
+    edges: {
+        node: Repo;
+        cursor: string;
+    }[]
+    pageInfo: {
+        hasNextPage: number;
+        hasPreviousPage: number;
+        startCursor: string;
+        endCursor: string;
+    }
+}
+
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryList = () => {
+    const [repositories, setRepositories] = useState<Repo[]>(repositoriesM as Repo[])
+
+    useEffect(() => {
+        fetch('http://192.168.1.42:5000/api/repositories', {
+            method: 'GET',
+        })
+            .then(async (res) => {
+                const rawData: Res = await res.json();
+                const data = rawData.edges.map((e) => (e.node));
+                setRepositories(data);
+            })
+            .catch((err) => {
+                console.error(err)
+            })
+    }, [])
+
     return (
         <FlatList
             style={styles.list}

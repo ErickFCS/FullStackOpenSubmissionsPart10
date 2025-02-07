@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@apollo/client": "^3.12.11",
     "@expo/metro-runtime": "~3.1.1",
     "@types/react": "~18.2.45",
     "expo": "~50.0.17",
