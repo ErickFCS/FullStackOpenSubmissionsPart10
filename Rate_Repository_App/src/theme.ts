@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 type FontWeight = "400" | "700" | "normal" | "bold" | "100" | "200" | "300" | "500" | "600" | "800" | "900";
 
 const theme = {
@@ -47,7 +48,11 @@ const theme = {
     subheading: 16,
   },
   fonts: {
-    main: 'System',
+    main: Platform.select({
+      android: 'Roboto',
+      ios: 'Arial',
+      default: 'System'
+    }),
   },
   fontWeights: {
     normal: '400' as FontWeight,
