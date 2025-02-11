@@ -4,6 +4,7 @@ import theme from '../theme';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import useSignIn from '../hooks/useSignIn';
+import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -47,6 +48,7 @@ const styles = StyleSheet.create({
 
 const SignIn = () => {
     const [signIn, authToken] = useSignIn();
+    const navigate = useNavigate()
     const formkit = useFormik({
         initialValues: {
             username: '',
@@ -65,6 +67,7 @@ const SignIn = () => {
                     password: formkit.values.password
                 }); 
                 console.log(authToken);
+                navigate('/');
             }
             catch (e: unknown) {
                 console.error(e);

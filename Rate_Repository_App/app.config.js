@@ -30,7 +30,6 @@ export default {
     },
     "extra": {
         APOLLO_URI: process.env.APOLLO_URI,
-        REST_URI: process.env.REST_URI,
-        USE_FETCH: process.env.USE_FETCH || false
+        REST_URI: process.env.REST_URI
     }
 }
