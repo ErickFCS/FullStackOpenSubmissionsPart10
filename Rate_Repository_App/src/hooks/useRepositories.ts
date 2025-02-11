@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { useState, useEffect } from 'react';
 import { GET_REPOSITORIES } from '../graphql/querys';
+import Constants from 'expo-constants';
 
 interface Repo {
     id: string;
@@ -40,7 +41,7 @@ const useRepositories = () => {
         const [loading, setLoading] = useState(false);
         const fetchRepositories = async () => {
             setLoading(true);
-            const res = await fetch('http://192.168.1.42:5000/api/repositories');
+            const res = await fetch(Constants.expoConfig.extra.REST_URI);
             const rawData: Res = await res.json();
             const data = rawData.edges.map((e) => (e.node));
             setRepositories(data);
