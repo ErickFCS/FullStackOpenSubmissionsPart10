@@ -3,6 +3,7 @@ import { Text } from './Text';
 import theme from '../theme';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import useSignIn from '../hooks/useSignIn';
 
 const styles = StyleSheet.create({
     container: {
@@ -45,6 +46,7 @@ const styles = StyleSheet.create({
 })
 
 const SignIn = () => {
+    const [signIn, authToken] = useSignIn();
     const formkit = useFormik({
         initialValues: {
             username: '',
@@ -54,10 +56,19 @@ const SignIn = () => {
             username: Yup.string().required('UserName is Required'),
             password: Yup.string().required('PassWord is Required')
         }),
-        onSubmit: () => {
-            console.log('Form submitted');
-            console.log('UserName', formkit.values.username);
-            console.log('PassWord', formkit.values.password);
+        onSubmit: async () => {
+            console.log(formkit.values.username);
+            console.log(formkit.values.password);
+            try {
+                await signIn({
+                    username: formkit.values.username,
+                    password: formkit.values.password
+                });
+                console.log(authToken.data);
+            }
+            catch (e: unknown) {
+                console.error(e);
+            }
         }
     })
     return (
