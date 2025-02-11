@@ -1,15 +1,13 @@
 import { useMutation } from "@apollo/client";
 import { AUTHENTICATE } from "../graphql/mutations";
 import type { FetchResult, MutationResult } from "@apollo/client";
-import { useState } from "react";
 
 const useSignIn = (): [
-    signIn: ({ username, password }: { username: string; password: string; }) => Promise<FetchResult<string>>,
-    result: MutationResult<string>
+    signIn: ({ username, password }: { username: string; password: string; }) => Promise<FetchResult<any>>,
+    result: string
 ] => {
-    const [mutate, result] = useMutation<string>(AUTHENTICATE);
-    useState
-    const signIn = async ({ username, password }: { username: string, password: string }): Promise<FetchResult<string>> => {
+    const [mutate, result] = useMutation(AUTHENTICATE);
+    const signIn = async ({ username, password }: { username: string, password: string }): Promise<FetchResult<any>> => {
         return await mutate({
             variables: {
                 credentials: {
@@ -21,7 +19,7 @@ const useSignIn = (): [
     }
     return [
         signIn,
-        result
+        result.data?.authenticate?.accessToken
     ]
 }
 

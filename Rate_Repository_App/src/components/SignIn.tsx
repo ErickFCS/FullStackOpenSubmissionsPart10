@@ -63,8 +63,8 @@ const SignIn = () => {
                 await signIn({
                     username: formkit.values.username,
                     password: formkit.values.password
-                });
-                console.log(authToken.data);
+                }); 
+                console.log(authToken);
             }
             catch (e: unknown) {
                 console.error(e);
