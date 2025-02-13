@@ -27,5 +27,5 @@ export const Text = ({ style, ...props }: PropType) => {
     style,
   ];
 
-  return <NativeText style={textStyle} {...props} />;
+  return <NativeText testID='nativeText' style={textStyle} {...props} />;
 };

@@ -1,13 +1,15 @@
 import react from 'eslint-plugin-react';
 import reactNative from 'eslint-plugin-react-native';
 import babelOptions from '@babel/eslint-parser';
+import jest from 'eslint-plugin-jest';
 
 export default [
     { ignores: ['dist', 'node_modules'] },
     {
         'plugins': {
             'react': react,
-            'react-native': reactNative
+            'react-native': reactNative,
+            'jest': jest
         },
         'settings': {
             'react': {

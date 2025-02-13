@@ -1,6 +1,6 @@
 import { View, Image, StyleSheet } from "react-native";
-import { Text } from "./Text";
-import theme from "../theme";
+import { Text } from "../Text";
+import theme from "../../theme";
 
 interface PropType {
     id: string;
@@ -84,12 +84,12 @@ const RepositoryItem = (prop: PropType) => {
         language,
         ownerAvatarUrl,
     } = prop;
-    const forksCount = prop.forksCount >= 1000 ? `${Math.round(prop.forksCount / 1000)}.${Math.round(prop.forksCount % 1000 / 100)}k` : prop.forksCount;
-    const stargazersCount = prop.stargazersCount >= 1000 ? `${Math.round(prop.stargazersCount / 1000)}.${Math.round(prop.stargazersCount % 1000 / 100)}k` : prop.stargazersCount;
-    const ratingAverage = prop.ratingAverage >= 1000 ? `${Math.round(prop.ratingAverage / 1000)}.${Math.round(prop.ratingAverage % 1000 / 100)}k` : prop.ratingAverage;
-    const reviewCount = prop.reviewCount >= 1000 ? `${Math.round(prop.reviewCount / 1000)}.${Math.round(prop.reviewCount % 1000 / 100)}k` : prop.reviewCount;
+    const forksCount = prop.forksCount >= 1000 ? `${Math.floor(prop.forksCount / 1000)}.${Math.floor(prop.forksCount % 1000 / 100)}k` : prop.forksCount;
+    const stargazersCount = prop.stargazersCount >= 1000 ? `${Math.floor(prop.stargazersCount / 1000)}.${Math.floor(prop.stargazersCount % 1000 / 100)}k` : prop.stargazersCount;
+    const ratingAverage = prop.ratingAverage >= 1000 ? `${Math.floor(prop.ratingAverage / 1000)}.${Math.floor(prop.ratingAverage % 1000 / 100)}k` : prop.ratingAverage;
+    const reviewCount = prop.reviewCount >= 1000 ? `${Math.floor(prop.reviewCount / 1000)}.${Math.floor(prop.reviewCount % 1000 / 100)}k` : prop.reviewCount;
     return (
-        <View style={styles.container}>
+        <View testID="repositoryItem" style={styles.container}>
             <View style={styles.photoDescriptionContainer}>
                 <View style={styles.photoContainer}>
                     <Image
