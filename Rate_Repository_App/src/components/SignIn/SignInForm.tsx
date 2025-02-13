@@ -1,10 +1,8 @@
 import { Pressable, StyleSheet, TextInput, View } from 'react-native';
-import { Text } from './Text';
-import theme from '../theme';
+import { Text } from '../Text';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import useSignIn from '../hooks/useSignIn';
-import { useNavigate } from 'react-router-native';
+import theme from '../../theme';
 
 const styles = StyleSheet.create({
     container: {
@@ -46,9 +44,7 @@ const styles = StyleSheet.create({
     },
 })
 
-const SignIn = () => {
-    const [signIn, authToken] = useSignIn();
-    const navigate = useNavigate()
+const SignInForm = ({ onSubmit }) => {
     const formkit = useFormik({
         initialValues: {
             username: '',
@@ -59,19 +55,10 @@ const SignIn = () => {
             password: Yup.string().required('PassWord is Required')
         }),
         onSubmit: async () => {
-            console.log(formkit.values.username);
-            console.log(formkit.values.password);
-            try {
-                await signIn({
-                    username: formkit.values.username,
-                    password: formkit.values.password
-                }); 
-                console.log(authToken);
-                navigate('/');
-            }
-            catch (e: unknown) {
-                console.error(e);
-            }
+            onSubmit({
+                username: formkit.values.username,
+                password: formkit.values.password
+            });
         }
     })
     return (
@@ -102,6 +89,6 @@ const SignIn = () => {
             </Pressable>
         </View>
     )
-};
+}
 
-export default SignIn;
+export default SignInForm;

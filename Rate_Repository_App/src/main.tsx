@@ -1,10 +1,10 @@
 import { StyleSheet, View } from 'react-native';
 import { Text } from './components/Text'
-import RepositoryList from './components/RepositoryList';
+import RepositoryList from './components/RepositoryList/Index';
 import AppBar from './components/AppBar';
 import theme from './theme';
 import { Route, Routes, Navigate } from 'react-router-native';
-import SignIn from './components/SignIn';
+import SignIn from './components/SignIn/Index';
 
 const styles = StyleSheet.create({
   container: {
