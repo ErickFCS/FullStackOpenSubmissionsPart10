@@ -14,6 +14,7 @@ query Repositories {
         ratingAverage
         reviewCount
         ownerAvatarUrl
+        url
       }
     }
   }

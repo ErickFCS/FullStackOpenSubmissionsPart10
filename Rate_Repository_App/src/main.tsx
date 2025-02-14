@@ -3,8 +3,10 @@ import { Text } from './components/Text'
 import RepositoryList from './components/RepositoryList/Index';
 import AppBar from './components/AppBar';
 import theme from './theme';
-import { Route, Routes, Navigate } from 'react-router-native';
+import { Route, Routes, Navigate, useMatch } from 'react-router-native';
 import SignIn from './components/SignIn/Index';
+import useRepositories from './hooks/useRepositories';
+import RepositoryItem from './components/RepositoryList/RepositoryItem';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,6 +20,11 @@ const styles = StyleSheet.create({
 });
 
 const Main = () => {
+  const match = useMatch('/repository/:id');
+  const repoId = match?.params.id;
+  const repositories = useRepositories();
+  if (match && repositories.loading) return <Text>Loading...</Text>;
+  const targetRepo = repositories.repositories.find((e) => (e.id === repoId))
   return (
     <View style={styles.container}>
       <AppBar />
@@ -29,6 +36,7 @@ const Main = () => {
           </View>
         } />
         <Route path='/signin' element={<SignIn />} />
+        <Route path='/repository/:id' element={<RepositoryItem {...targetRepo} />} />
         <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
 

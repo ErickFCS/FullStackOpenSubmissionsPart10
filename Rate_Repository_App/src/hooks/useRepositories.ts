@@ -16,6 +16,7 @@ interface Repo {
     ratingAverage: number;
     reviewCount: number;
     ownerAvatarUrl: string;
+    url: string;
 };
 
 interface Res {

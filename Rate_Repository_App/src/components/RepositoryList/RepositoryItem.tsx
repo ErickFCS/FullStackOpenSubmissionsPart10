@@ -1,4 +1,5 @@
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, Pressable } from "react-native";
+import * as Linking from 'expo-linking';
 import { Text } from "../Text";
 import theme from "../../theme";
 
@@ -12,6 +13,7 @@ interface PropType {
     ratingAverage: number;
     reviewCount: number;
     ownerAvatarUrl: string;
+    url: string;
 }
 
 const styles = StyleSheet.create({
@@ -74,6 +76,17 @@ const styles = StyleSheet.create({
         marginTop: 10,
         alignSelf: 'flex-start',
     },
+    linkBUtton: {
+        backgroundColor: theme.colors.bsPrimaryTextEmphasis,
+        borderRadius: 5,
+        margin: 10,
+        alignSelf: 'stretch',
+    },
+    linkButtonText: {
+        color: theme.colors.bsEmphasisColor,
+        padding: 10,
+        textAlign: 'center',
+    },
 });
 
 const RepositoryItem = (prop: PropType) => {
@@ -121,6 +134,11 @@ const RepositoryItem = (prop: PropType) => {
                     <Text style={styles.statName}>Rating</Text>
                 </View>
             </View>
+            {prop.url ?
+                <Pressable style={styles.linkBUtton} onPress={() => { Linking.openURL(prop.url) }}>
+                    <Text style={styles.linkButtonText}>Open in GitHib</Text>
+                </Pressable>
+                : null}
         </View>
     )
 };
