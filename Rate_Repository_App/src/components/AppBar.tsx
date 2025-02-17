@@ -40,22 +40,27 @@ const AppBar = () => {
     return (
         <View style={styles.container}>
             <ScrollView horizontal>
-                <Link style={styles.navLink} to='/'>
+                <Link key='1' style={styles.navLink} to='/'>
                     <Text style={styles.text}>Repositories</Text>
                 </Link>
                 {!me.loading && me.data.me ?
                     [
-                        <Pressable style={styles.navLink} onPress={handleSignOut}>
+                        <Pressable key='2' style={styles.navLink} onPress={handleSignOut}>
                             <Text style={styles.text}>Sign out</Text>
                         </Pressable>,
-                        <Link style={styles.navLink} to='/newReview'>
+                        <Link key='3' style={styles.navLink} to='/newReview'>
                             <Text style={styles.text}>Create a review</Text>
                         </Link>
                     ]
                     :
-                    <Link style={styles.navLink} to='/signin'>
-                        <Text style={styles.text}>Sign In</Text>
-                    </Link>
+                    [
+                        <Link key='4' style={styles.navLink} to='/signin'>
+                            <Text style={styles.text}>Sign In</Text>
+                        </Link>,
+                        <Link key='5' style={styles.navLink} to='/signup'>
+                            <Text style={styles.text}>Sign Up</Text>
+                        </Link>
+                    ]
                 }
             </ScrollView>
         </View>

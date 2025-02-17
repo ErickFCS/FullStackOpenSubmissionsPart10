@@ -5,8 +5,8 @@ import AppBar from './components/AppBar';
 import theme from './theme';
 import { Route, Routes, Navigate, useMatch } from 'react-router-native';
 import SignIn from './components/SignIn/Index';
+import SignUp from './components/SignUp/Index';
 import useRepositories from './hooks/useRepositories';
-import RepositoryItem from './components/RepositoryList/RepositoryItem';
 import SingleRepository from './components/SingleRepository';
 import CreateReview from './components/CreateReview/Index';
 
@@ -38,6 +38,7 @@ const Main = () => {
           </View>
         } />
         <Route path='/signin' element={<SignIn />} />
+        <Route path='/signup' element={<SignUp />} />
         <Route path='/newReview' element={<CreateReview />} />
         <Route path='/repository/:id' element={<SingleRepository {...targetRepo} />} />
         <Route path='*' element={<Navigate to='/' replace />} />

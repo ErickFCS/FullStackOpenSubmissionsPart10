@@ -15,3 +15,11 @@ mutation Mutation($review: CreateReviewInput) {
   }
 }
 `
+
+export const NEW_USER = gql`
+mutation Mutation($user: CreateUserInput) {
+  createUser(user: $user) {
+    id
+  }
+}
+`
