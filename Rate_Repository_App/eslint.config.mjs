@@ -4,7 +4,7 @@ import babelOptions from '@babel/eslint-parser';
 import jest from 'eslint-plugin-jest';
 
 export default [
-    { ignores: ['dist', 'node_modules'] },
+    { ignores: ['dist', 'node_modules', '.expo'] },
     {
         'plugins': {
             'react': react,
