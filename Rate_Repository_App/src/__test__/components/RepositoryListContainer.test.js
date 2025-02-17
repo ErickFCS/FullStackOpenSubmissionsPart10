@@ -1,4 +1,4 @@
-import RepositoryListContainer from "../../components/RepositoryList/RepositoryListContainer";
+import RepositoryListContainer from '../../components/RepositoryList/RepositoryListContainer';
 import { render, screen, within } from '@testing-library/react-native';
 
 
@@ -48,7 +48,7 @@ describe('RepositoryList', () => {
                 ],
             };
             const repositories = rawRepositories.edges?.map((e) => (e.node));
-            render(<RepositoryListContainer repositories={repositories} />)
+            render(<RepositoryListContainer repositories={repositories} />);
             // screen.debug();
             const [repo1, repo2] = screen.getAllByTestId('repositoryItem');
             const [
@@ -63,7 +63,7 @@ describe('RepositoryList', () => {
                 reviews1,
                 ratingAverage1,
                 ratings1
-            ] = within(repo1).getAllByTestId('nativeText')
+            ] = within(repo1).getAllByTestId('nativeText');
             const [
                 fullName2,
                 description2,
@@ -76,7 +76,7 @@ describe('RepositoryList', () => {
                 reviews2,
                 ratingAverage2,
                 ratings2
-            ] = within(repo2).getAllByTestId('nativeText')
+            ] = within(repo2).getAllByTestId('nativeText');
             expect(fullName1).toHaveTextContent('jaredpalmer/formik');
             expect(description1).toHaveTextContent('Build forms in React, without the tears');
             expect(language1).toHaveTextContent('TypeScript');
