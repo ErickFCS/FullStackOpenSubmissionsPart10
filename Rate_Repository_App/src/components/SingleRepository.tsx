@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     reviewText: {
         marginTop: 10,
         marginBottom: 10,
-        width: '15%'
+        width: 250
     },
 });
 

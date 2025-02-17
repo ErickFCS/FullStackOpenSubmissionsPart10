@@ -44,9 +44,14 @@ const AppBar = () => {
                     <Text style={styles.text}>Repositories</Text>
                 </Link>
                 {!me.loading && me.data.me ?
-                    <Pressable style={styles.navLink} onPress={handleSignOut}>
-                        <Text style={styles.text}>Sign out</Text>
-                    </Pressable>
+                    [
+                        <Pressable style={styles.navLink} onPress={handleSignOut}>
+                            <Text style={styles.text}>Sign out</Text>
+                        </Pressable>,
+                        <Link style={styles.navLink} to='/newReview'>
+                            <Text style={styles.text}>Create a review</Text>
+                        </Link>
+                    ]
                     :
                     <Link style={styles.navLink} to='/signin'>
                         <Text style={styles.text}>Sign In</Text>

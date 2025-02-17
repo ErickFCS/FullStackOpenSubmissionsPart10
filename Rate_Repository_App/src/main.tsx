@@ -8,6 +8,7 @@ import SignIn from './components/SignIn/Index';
 import useRepositories from './hooks/useRepositories';
 import RepositoryItem from './components/RepositoryList/RepositoryItem';
 import SingleRepository from './components/SingleRepository';
+import CreateReview from './components/CreateReview/Index';
 
 const styles = StyleSheet.create({
   container: {
@@ -37,6 +38,7 @@ const Main = () => {
           </View>
         } />
         <Route path='/signin' element={<SignIn />} />
+        <Route path='/newReview' element={<CreateReview />} />
         <Route path='/repository/:id' element={<SingleRepository {...targetRepo} />} />
         <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
