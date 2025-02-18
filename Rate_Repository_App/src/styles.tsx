@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row'
     },
-    repositorySearchBox:{
+    repositorySearchBox: {
         backgroundColor: theme.colors.DarkBgSubtle,
         borderColor: theme.colors.BorderColor,
         borderRadius: 25,
@@ -199,6 +199,39 @@ const styles = StyleSheet.create({
         fontWeight: theme.fontWeights.bold,
         marginEnd: 10,
         marginTop: 10
+    },
+    extendedReviewContainer: {
+        backgroundColor: theme.colors.SecondaryBg,
+    },
+    extendedReviewButtonContainer: {
+        backgroundColor: theme.colors.SecondaryBg,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+    },
+    extendedReviewRepoButton: {
+        backgroundColor: theme.colors.InfoBgSubtle,
+        borderColor: theme.colors.InfoBorderSubtle,
+        borderWidth: 1,
+        marginBottom: 10,
+        padding: 12,
+        width: '40%'
+    },
+    extendedReviewDeleteButton: {
+        backgroundColor: theme.colors.DangerBgSubtle,
+        borderColor: theme.colors.DangerBorderSubtle,
+        borderWidth: 1,
+        marginBottom: 10,
+        padding: 12,
+        width: '40%'
+    },
+    extendedReviewRepoButtonText: {
+        color: theme.colors.InfoTextEmphasis,
+        textAlign: 'center'
+    },
+    extendedReviewDeleteButtonText: {
+        color: theme.colors.DangerTextEmphasis,
+        textAlign: 'center'
     }
 });
 

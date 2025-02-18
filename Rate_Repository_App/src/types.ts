@@ -6,6 +6,7 @@ export interface Review {
     text: string;
     rating: number;
     createdAt: string;
+    repositoryId?: string;
     user: {
         __typename?: string;
         id: string;

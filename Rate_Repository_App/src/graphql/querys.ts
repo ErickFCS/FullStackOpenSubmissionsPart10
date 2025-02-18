@@ -63,6 +63,7 @@ query Me($includeReviews: Boolean = false) {
           text
           rating
           createdAt
+          repositoryId
           user {
             id
             username
