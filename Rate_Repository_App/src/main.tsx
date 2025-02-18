@@ -1,6 +1,5 @@
 import { Route, Routes, Navigate, useMatch } from 'react-router-native';
 import { View } from 'react-native';
-import { Text } from './components/Text';
 import AppBar from './components/AppBar';
 import CreateReview from './components/CreateReview/Index';
 import RepositoryList from './components/RepositoryList/Index';
@@ -8,7 +7,6 @@ import SignIn from './components/SignIn/Index';
 import SignUp from './components/SignUp/Index';
 import SingleRepository from './components/SingleRepository';
 import styles from './styles';
-import useRepositories from './hooks/useRepositories';
 
 const Main = () => {
     const match = useMatch('/repository/:id');

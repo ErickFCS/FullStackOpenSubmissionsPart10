@@ -132,6 +132,16 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row'
     },
+    repositorySearchBox:{
+        backgroundColor: theme.colors.DarkBgSubtle,
+        borderColor: theme.colors.BorderColor,
+        borderRadius: 25,
+        borderWidth: 1,
+        color: theme.colors.InfoTextEmphasis,
+        marginVertical: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+    },
     repositoryStat: {
         alignItems: 'center',
         display: 'flex',

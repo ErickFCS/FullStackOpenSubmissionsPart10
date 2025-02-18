@@ -1,17 +1,13 @@
-import { FlatList, View, Pressable } from 'react-native';
-import { FullRepo } from '../../types';
+import { FlatList, View, Pressable, TextInput } from 'react-native';
+import { FullRepo, Sort, SearchFilter } from '../../types';
 import { Picker } from '@react-native-picker/picker';
 import { Text } from '../Text';
+import { useDebouncedCallback } from 'use-debounce';
 import { useNavigate } from 'react-router-native';
 import { useState } from 'react';
 import RepositoryItem from './RepositoryItem';
 import styles from '../../styles';
 import theme from '../../theme';
-
-export interface Sort {
-    orderBy: 'CREATED_AT' | 'RATING_AVERAGE';
-    orderDirection: 'DESC' | 'ASC';
-}
 
 const latestRepositories: Sort = {
     orderBy: 'CREATED_AT',
@@ -26,9 +22,15 @@ const lowestRatedRepositories: Sort = {
     orderDirection: 'ASC'
 }
 
-const ListHeaderComponent = ({ handleChange, selectedOrder }) => {
+const ListHeaderComponent = ({ handleChange, selectedOrder, setSearchKeywordRaw }) => {
     return (
         <View>
+            <TextInput
+                style={styles.repositorySearchBox}
+                placeholderTextColor={theme.colors.InfoTextEmphasis}
+                placeholder='Search here'
+                onChangeText={(e) => { setSearchKeywordRaw(e) }}
+            />
             <Text style={styles.globalInfoText}>Rate Repository Application</Text>
             <Picker
                 style={styles.repositoryPicker}
@@ -47,13 +49,20 @@ const ListHeaderComponent = ({ handleChange, selectedOrder }) => {
 
 interface PropType {
     repositories: FullRepo[],
-    handleRefresh(variables: Sort): void,
+    handleRefresh(variables: SearchFilter): void,
     refreshing: boolean
 }
 
 const RepositoryListContainer = ({ repositories, handleRefresh, refreshing, }: PropType) => {
     const navigate = useNavigate();
     const [selectedOrder, setSelectedOrder] = useState<Sort>(latestRepositories);
+    const setSearchKeywordRaw = useDebouncedCallback((searchKeyword) => {
+        console.log(searchKeyword);
+        handleRefresh({
+            ...selectedOrder,
+            searchKeyword: searchKeyword
+        });
+    }, 500);
 
     const handleChange = (value) => {
         setSelectedOrder(value);
@@ -68,6 +77,7 @@ const RepositoryListContainer = ({ repositories, handleRefresh, refreshing, }: P
             ListHeaderComponent={<ListHeaderComponent
                 handleChange={handleChange}
                 selectedOrder={selectedOrder}
+                setSearchKeywordRaw={setSearchKeywordRaw}
             />}
             ListFooterComponent={<View />}
             ListEmptyComponent={

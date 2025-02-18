@@ -35,3 +35,12 @@ export interface FullRepo extends RepoWithURL {
     ownerName: string;
     createdAt: string;
 }
+
+export interface Sort {
+    orderBy: 'CREATED_AT' | 'RATING_AVERAGE';
+    orderDirection: 'DESC' | 'ASC';
+}
+
+export interface SearchFilter extends Sort {
+    searchKeyword?: string;
+}
