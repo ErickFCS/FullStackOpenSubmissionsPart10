@@ -1,48 +1,9 @@
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, TextInput, View } from 'react-native';
 import { Text } from '../Text';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import styles from '../../styles';
 import theme from '../../theme';
-
-const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'stretch',
-    },
-    input: {
-        backgroundColor: theme.colors.bsDarkBgSubtle,
-        borderColor: theme.colors.bsBorderColor,
-        borderWidth: 1,
-        padding: 10,
-        margin: 10,
-        color: theme.colors.bsInfoTextEmphasis,
-    },
-    inputError: {
-        backgroundColor: theme.colors.bsDangerBgSubtle,
-        borderColor: theme.colors.bsDangerBorderSubtle,
-        borderWidth: 1,
-        padding: 10,
-        margin: 10,
-        color: theme.colors.bsDangerTextEmphasis,
-    },
-    inputErrorText: {
-        color: theme.colors.bsDangerTextEmphasis,
-        marginStart: 20,
-        marginBottom: 10,
-    },
-    button: {
-        backgroundColor: theme.colors.bsSuccessBgSubtle,
-        borderColor: theme.colors.bsSuccessBorderSubtle,
-        borderWidth: 1,
-        padding: 12,
-        margin: 10,
-    },
-    buttonText: {
-        color: theme.colors.bsSuccessTextEmphasis,
-        textAlign: 'center'
-    },
-})
 
 const CreateReviewForm = ({ onSubmit }) => {
     const formkit = useFormik({
@@ -53,10 +14,21 @@ const CreateReviewForm = ({ onSubmit }) => {
             review: '',
         },
         validationSchema: Yup.object().shape({
-            ownerName: Yup.string().required('Owner name is Required'),
-            repositoryName: Yup.string().required('Repository name is Required'),
-            rating: Yup.number().typeError('Rating must be a number').integer('Rating must be a integer').min(0, 'Rating must be between 0 and 100').max(100, 'Rating must be between 0 and 100').required('Rating is Required'),
-            review: Yup.string(),
+            ownerName: Yup
+                .string()
+                .required('Owner name is Required'),
+            repositoryName: Yup
+                .string()
+                .required('Repository name is Required'),
+            rating: Yup
+                .number()
+                .typeError('Rating must be a number')
+                .integer('Rating must be a integer')
+                .min(0, 'Rating must be between 0 and 100')
+                .max(100, 'Rating must be between 0 and 100')
+                .required('Rating is Required'),
+            review: Yup
+                .string(),
         }),
         onSubmit: async () => {
             onSubmit({
@@ -67,56 +39,61 @@ const CreateReviewForm = ({ onSubmit }) => {
             });
             // formkit.resetForm();
         }
-    })
+    });
+
     return (
-        <View style={styles.container}>
+        <View style={styles.formContainer}>
             <TextInput
+                style={formkit.errors.ownerName && formkit.touched.ownerName ? styles.formInputError : styles.formInput}
+                placeholderTextColor={formkit.errors.ownerName && formkit.touched.ownerName ? theme.colors.DangerTextEmphasis : theme.colors.InfoTextEmphasis}
                 placeholder='Owner name'
-                placeholderTextColor={formkit.errors.ownerName && formkit.touched.ownerName ? theme.colors.bsDangerTextEmphasis : theme.colors.bsInfoTextEmphasis}
-                style={formkit.errors.ownerName && formkit.touched.ownerName ? styles.inputError : styles.input}
-                value={formkit.values.ownerName}
                 onChangeText={formkit.handleChange('ownerName')}
+                value={formkit.values.ownerName}
             />
-            {formkit.errors.ownerName && formkit.touched.ownerName ?
-                <Text style={styles.inputErrorText}>{formkit.errors.ownerName}</Text>
-                : null}
+            {
+                formkit.errors.ownerName && formkit.touched.ownerName &&
+                <Text style={styles.formInputErrorText}>{formkit.errors.ownerName}</Text>
+            }
             <TextInput
+                style={formkit.errors.repositoryName && formkit.touched.repositoryName ? styles.formInputError : styles.formInput}
+                placeholderTextColor={formkit.errors.repositoryName && formkit.touched.repositoryName ? theme.colors.DangerTextEmphasis : theme.colors.InfoTextEmphasis}
                 placeholder='Repository name'
-                placeholderTextColor={formkit.errors.repositoryName && formkit.touched.repositoryName ? theme.colors.bsDangerTextEmphasis : theme.colors.bsInfoTextEmphasis}
-                style={formkit.errors.repositoryName && formkit.touched.repositoryName ? styles.inputError : styles.input}
-                value={formkit.values.repositoryName}
                 onChangeText={formkit.handleChange('repositoryName')}
+                value={formkit.values.repositoryName}
             />
-            {formkit.errors.repositoryName && formkit.touched.repositoryName ?
-                <Text style={styles.inputErrorText}>{formkit.errors.repositoryName}</Text>
-                : null}
+            {
+                formkit.errors.repositoryName && formkit.touched.repositoryName &&
+                <Text style={styles.formInputErrorText}>{formkit.errors.repositoryName}</Text>
+            }
             <TextInput
+                style={formkit.errors.rating && formkit.touched.rating ? styles.formInputError : styles.formInput}
+                placeholderTextColor={formkit.errors.rating && formkit.touched.rating ? theme.colors.DangerTextEmphasis : theme.colors.InfoTextEmphasis}
                 placeholder='Rating'
-                placeholderTextColor={formkit.errors.rating && formkit.touched.rating ? theme.colors.bsDangerTextEmphasis : theme.colors.bsInfoTextEmphasis}
-                style={formkit.errors.rating && formkit.touched.rating ? styles.inputError : styles.input}
-                value={formkit.values.rating}
                 keyboardType='numeric'
                 onChangeText={formkit.handleChange('rating')}
+                value={formkit.values.rating}
             />
-            {formkit.errors.rating && formkit.touched.rating ?
-                <Text style={styles.inputErrorText}>{formkit.errors.rating}</Text>
-                : null}
+            {
+                formkit.errors.rating && formkit.touched.rating &&
+                <Text style={styles.formInputErrorText}>{formkit.errors.rating}</Text>
+            }
             <TextInput
+                style={formkit.errors.review && formkit.touched.review ? styles.formInputError : styles.formInput}
+                placeholderTextColor={formkit.errors.review && formkit.touched.review ? theme.colors.DangerTextEmphasis : theme.colors.InfoTextEmphasis}
                 placeholder='Review'
-                placeholderTextColor={formkit.errors.review && formkit.touched.review ? theme.colors.bsDangerTextEmphasis : theme.colors.bsInfoTextEmphasis}
-                style={formkit.errors.review && formkit.touched.review ? styles.inputError : styles.input}
-                value={formkit.values.review}
                 multiline
                 onChangeText={formkit.handleChange('review')}
+                value={formkit.values.review}
             />
-            {formkit.errors.review && formkit.touched.review ?
-                <Text style={styles.inputErrorText}>{formkit.errors.review}</Text>
-                : null}
-            <Pressable style={styles.button} onPress={(e) => { formkit.handleSubmit() }}>
-                <Text style={styles.buttonText}>Create</Text>
+            {
+                formkit.errors.review && formkit.touched.review &&
+                <Text style={styles.formInputErrorText}>{formkit.errors.review}</Text>
+            }
+            <Pressable style={styles.formButton} onPress={(e) => { formkit.handleSubmit(); }}>
+                <Text style={styles.formButtonText}>Create</Text>
             </Pressable>
         </View>
-    )
-}
+    );
+};
 
 export default CreateReviewForm;

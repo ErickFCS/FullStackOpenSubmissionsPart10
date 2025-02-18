@@ -1,113 +1,64 @@
-import { FlatList, View, StyleSheet } from "react-native";
-import { Text } from "./Text";
-import RepositoryItem from "./RepositoryList/RepositoryItem";
-import { useQuery } from "@apollo/client";
-import { GET_REPOSITORY } from "../graphql/querys";
-import theme from "../theme";
+import { FlatList, View } from 'react-native';
+import { GET_REPOSITORY } from '../graphql/querys';
+import { Review, RepoWithURL } from '../types';
+import { Text } from './Text';
+import { useQuery } from '@apollo/client';
+import RepositoryItem from './RepositoryList/RepositoryItem';
+import styles from '../styles';
 
-interface Review {
-    __typename?: string;
-    id: string;
-    text: string;
-    rating: number;
-    createdAt: string;
-    user: {
-        __typename?: string;
-        id: string;
-        username: string;
-    };
-};
-
-const styles = StyleSheet.create({
-    separator: {
-        height: 10,
-    },
-    list: {
-        paddingTop: 10,
-        paddingHorizontal: 10,
-    },
-    reviewContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        backgroundColor: theme.colors.bsSecondaryBg,
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start'
-    },
-    reviewRightSide: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-    },
-    reviewRateContainer: {
-        margin: 10,
-        padding: 20,
-        backgroundColor: theme.colors.bsInfoBgSubtle,
-        borderColor: theme.colors.bsInfoTextEmphasis,
-        borderWidth: 1,
-        width: 60,
-        height: 60,
-        borderRadius: 30,
-    },
-    reviewRate: {
-        textAlign: 'center',
-        color: theme.colors.bsInfoTextEmphasis
-    },
-    reviewUsername: {
-        marginTop: 10,
-        fontWeight: theme.fontWeights.bold,
-        marginEnd: 10,
-    },
-    reviewText: {
-        marginTop: 10,
-        marginBottom: 10,
-        width: 250
-    },
-});
-
-const ReviewItem = (prop: Review) => {
+const ReviewItem = ({ rating, user, createdAt, text }: Review) => {
     return (
         <View style={styles.reviewContainer}>
             <View style={styles.reviewRateContainer}>
-                <Text style={styles.reviewRate}>{prop.rating}</Text>
+                <Text style={styles.reviewRate}>{rating}</Text>
             </View>
             <View style={styles.reviewRightSide}>
-                <Text style={styles.reviewUsername}>{prop.user.username}</Text>
-                <Text>{prop.createdAt.replace(/(^\d{4}).(\d{2}).(\d{2}).(\d{2}).(\d{2}).(\d{2}).*/, '$3.$2.$1')}</Text>
-                <Text style={styles.reviewText}>{prop.text}</Text>
+                <Text style={styles.reviewUsername}>{user.username}</Text>
+                <Text>{createdAt.replace(/(^\d{4}).(\d{2}).(\d{2}).(\d{2}).(\d{2}).(\d{2}).*/, '$3.$2.$1')}</Text>
+                <Text style={styles.reviewText}>{text}</Text>
             </View>
         </View>
     );
 };
 
-const ItemSeparator = () => <View style={styles.separator} />;
+interface RawRepository {
+    repository: RepoWithURL & {
+        reviews: {
+            edges: {
+                node: Review;
+            }[];
+        }
+    };
+}
 
-interface PropType {
-    id: string;
-    fullName: string;
-    description: string;
-    language: string;
-    forksCount: number;
-    stargazersCount: number;
-    ratingAverage: number;
-    reviewCount: number;
-    ownerAvatarUrl: string;
-    url: string;
-};
-
-const SingleRepository = (prop: PropType) => {
-    const rawReviews = useQuery(GET_REPOSITORY, {
-        fetchPolicy: "cache-and-network",
+const SingleRepository = ({ repoId }: { repoId: string }) => {
+    const rawRepository = useQuery<RawRepository>(GET_REPOSITORY, {
+        fetchPolicy: 'cache-and-network',
         variables: {
-            repositoryId: prop.id
+            repositoryId: repoId
         }
     });
-    const reviews: Review[] = rawReviews.loading ? [] : rawReviews.data.repository.reviews.edges.map((e) => (e.node))
+
+    const reviews = rawRepository.data?.repository.reviews.edges.map((e) => (e.node));
+    const repository = rawRepository.data?.repository;
+
     return (
         <FlatList
-            style={styles.list}
-            ListHeaderComponent={() => <RepositoryItem {...prop} />}
-            ItemSeparatorComponent={ItemSeparator}
+            style={styles.globalList}
+            ListHeaderComponentStyle={{ marginBottom: 10 }}
+            ListFooterComponentStyle={{ marginBottom: 20 }}
+            ListHeaderComponent={<RepositoryItem {...repository} />}
+            ListFooterComponent={<View />}
+            ListEmptyComponent={
+                rawRepository.loading
+                    ?
+                    <Text style={styles.globalInfoText}>Loading...</Text>
+                    :
+                    <Text style={styles.globalInfoText}>No reviews yet</Text>
+            }
+            refreshing={rawRepository.loading}
+            onRefresh={() => { rawRepository.refetch() }}
+            ItemSeparatorComponent={() => <View style={styles.globalSeparator} />}
             keyExtractor={({ id }) => id}
             data={reviews}
             renderItem={({ item }) => <ReviewItem {...item} />}

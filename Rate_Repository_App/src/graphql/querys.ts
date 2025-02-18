@@ -19,11 +19,21 @@ query Repositories($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirec
     }
   }
 }
-`
+`;
 
 export const GET_REPOSITORY = gql`
 query Repositories($repositoryId: ID!) {
   repository(id: $repositoryId) {
+    id
+    fullName
+    description
+    language
+    forksCount
+    stargazersCount
+    ratingAverage
+    reviewCount
+    ownerAvatarUrl
+    url
     reviews {
       edges {
         node {
@@ -40,7 +50,7 @@ query Repositories($repositoryId: ID!) {
     }
   }
 }
-`
+`;
 
 export const ME = gql`
 query Me {
@@ -49,4 +59,4 @@ query Me {
     id
   }
 }
-`
+`;

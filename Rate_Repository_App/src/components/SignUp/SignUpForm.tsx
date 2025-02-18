@@ -1,48 +1,9 @@
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, TextInput, View } from 'react-native';
 import { Text } from '../Text';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import theme from '../../theme';
-
-const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'stretch',
-    },
-    input: {
-        backgroundColor: theme.colors.bsDarkBgSubtle,
-        borderColor: theme.colors.bsBorderColor,
-        borderWidth: 1,
-        padding: 10,
-        margin: 10,
-        color: theme.colors.bsInfoTextEmphasis,
-    },
-    inputError: {
-        backgroundColor: theme.colors.bsDangerBgSubtle,
-        borderColor: theme.colors.bsDangerBorderSubtle,
-        borderWidth: 1,
-        padding: 10,
-        margin: 10,
-        color: theme.colors.bsDangerTextEmphasis,
-    },
-    inputErrorText: {
-        color: theme.colors.bsDangerTextEmphasis,
-        marginStart: 20,
-        marginBottom: 10,
-    },
-    button: {
-        backgroundColor: theme.colors.bsSuccessBgSubtle,
-        borderColor: theme.colors.bsSuccessBorderSubtle,
-        borderWidth: 1,
-        padding: 12,
-        margin: 10,
-    },
-    buttonText: {
-        color: theme.colors.bsSuccessTextEmphasis,
-        textAlign: 'center'
-    },
-})
+import styles from '../../styles';
 
 const SignInForm = ({ onSubmit }) => {
     const formkit = useFormik({
@@ -52,9 +13,20 @@ const SignInForm = ({ onSubmit }) => {
             passwordConfirmation: '',
         },
         validationSchema: Yup.object().shape({
-            username: Yup.string().min(5, 'UserName must be between 5 and 30 characters long').max(30, 'UserName must be between 5 and 30 characters long').required('UserName is Required'),
-            password: Yup.string().min(5, 'PassWord must be between 5 and 30 characters long').max(30, 'PassWord must be between 5 and 30 characters long').required('PassWord is Required'),
-            passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], 'PassWord dont match').required('password Confirmation is Required')
+            username: Yup
+                .string()
+                .min(5, 'Username must be between 5 and 30 characters long')
+                .max(30, 'Username must be between 5 and 30 characters long')
+                .required('Username is Required'),
+            password: Yup
+                .string()
+                .min(5, 'Password must be between 5 and 30 characters long')
+                .max(30, 'Password must be between 5 and 30 characters long')
+                .required('Password is Required'),
+            passwordConfirmation: Yup
+                .string()
+                .oneOf([Yup.ref('password'), null], 'Password dont match')
+                .required('password Confirmation is Required')
         }),
         onSubmit: async () => {
             onSubmit({
@@ -62,46 +34,50 @@ const SignInForm = ({ onSubmit }) => {
                 password: formkit.values.password
             });
         }
-    })
+    });
+
     return (
-        <View style={styles.container}>
+        <View style={styles.formContainer}>
             <TextInput
-                placeholder='UserName'
-                placeholderTextColor={formkit.errors.username && formkit.touched.username ? theme.colors.bsDangerTextEmphasis : theme.colors.bsInfoTextEmphasis}
-                style={formkit.errors.username && formkit.touched.username ? styles.inputError : styles.input}
-                value={formkit.values.username}
+                style={formkit.errors.username && formkit.touched.username ? styles.formInputError : styles.formInput}
+                placeholderTextColor={formkit.errors.username && formkit.touched.username ? theme.colors.DangerTextEmphasis : theme.colors.InfoTextEmphasis}
+                placeholder='Username'
                 onChangeText={formkit.handleChange('username')}
+                value={formkit.values.username}
             />
-            {formkit.errors.username && formkit.touched.username ?
-                <Text style={styles.inputErrorText}>{formkit.errors.username}</Text>
-                : null}
+            {
+                formkit.errors.username && formkit.touched.username &&
+                <Text style={styles.formInputErrorText}>{formkit.errors.username}</Text>
+            }
             <TextInput
-                placeholder='PassWord'
-                placeholderTextColor={formkit.errors.password && formkit.touched.password ? theme.colors.bsDangerTextEmphasis : theme.colors.bsInfoTextEmphasis}
+                style={formkit.errors.password && formkit.touched.password ? styles.formInputError : styles.formInput}
+                placeholderTextColor={formkit.errors.password && formkit.touched.password ? theme.colors.DangerTextEmphasis : theme.colors.InfoTextEmphasis}
+                placeholder='Password'
                 secureTextEntry
-                style={formkit.errors.password && formkit.touched.password ? styles.inputError : styles.input}
-                value={formkit.values.password}
                 onChangeText={formkit.handleChange('password')}
+                value={formkit.values.password}
             />
-            {formkit.errors.password && formkit.touched.password ?
-                <Text style={styles.inputErrorText}>{formkit.errors.password}</Text>
-                : null}
+            {
+                formkit.errors.password && formkit.touched.password &&
+                <Text style={styles.formInputErrorText}>{formkit.errors.password}</Text>
+            }
             <TextInput
-                placeholder='password Confirmation'
-                placeholderTextColor={formkit.errors.passwordConfirmation && formkit.touched.passwordConfirmation ? theme.colors.bsDangerTextEmphasis : theme.colors.bsInfoTextEmphasis}
+                style={formkit.errors.passwordConfirmation && formkit.touched.passwordConfirmation ? styles.formInputError : styles.formInput}
+                placeholderTextColor={formkit.errors.passwordConfirmation && formkit.touched.passwordConfirmation ? theme.colors.DangerTextEmphasis : theme.colors.InfoTextEmphasis}
+                placeholder='Password Confirmation'
                 secureTextEntry
-                style={formkit.errors.passwordConfirmation && formkit.touched.passwordConfirmation ? styles.inputError : styles.input}
-                value={formkit.values.passwordConfirmation}
                 onChangeText={formkit.handleChange('passwordConfirmation')}
+                value={formkit.values.passwordConfirmation}
             />
-            {formkit.errors.passwordConfirmation && formkit.touched.passwordConfirmation ?
-                <Text style={styles.inputErrorText}>{formkit.errors.passwordConfirmation}</Text>
-                : null}
-            <Pressable style={styles.button} onPress={(e) => { formkit.handleSubmit() }}>
-                <Text style={styles.buttonText}>Sign Up</Text>
+            {
+                formkit.errors.passwordConfirmation && formkit.touched.passwordConfirmation &&
+                <Text style={styles.formInputErrorText}>{formkit.errors.passwordConfirmation}</Text>
+            }
+            <Pressable style={styles.formButton} onPress={(e) => { formkit.handleSubmit(); }}>
+                <Text style={styles.formButtonText}>Sign Up</Text>
             </Pressable>
         </View>
-    )
-}
+    );
+};
 
 export default SignInForm;

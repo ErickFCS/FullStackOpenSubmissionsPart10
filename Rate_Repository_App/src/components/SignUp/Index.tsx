@@ -1,36 +1,34 @@
-import useSignIn from '../../hooks/useSignIn';
+import { NEW_USER } from '../../graphql/mutations';
+import { useMutation } from '@apollo/client';
 import { useNavigate } from 'react-router-native';
 import SignUpForm from './SignUpForm';
-import { useMutation } from '@apollo/client';
-import { NEW_USER } from '../../graphql/mutations';
+import useSignIn from '../../hooks/useSignIn';
 
+interface RawNewUser {
+    createUser: {
+        id: string;
+    }
+}
 
 const SignUp = () => {
+    const [mutation,] = useMutation<RawNewUser>(NEW_USER);
     const [signIn, authToken] = useSignIn();
-    const [mutation, result] = useMutation(NEW_USER);
     const navigate = useNavigate();
 
     const onSubmit = async ({ username, password }) => {
         try {
-            console.log(username);
-            console.log(password);
-            await mutation({
-                variables: {
-                    user: {
-                        username,
-                        password
-                    }
-                }
-            }).then(async (res) => {
-                console.log(res);
-                await signIn({ username, password });
-                navigate('/');
-            })
+            console.log('username', username);
+            console.log('password', password);
+            const result = await mutation({ variables: { user: { username, password } } });
+            console.log('userId', result.data.createUser.id);
+            await signIn({ username, password });
+            navigate('/');
         }
         catch (e: unknown) {
             console.error(e);
         }
-    }
+    };
+
     return (
         <SignUpForm onSubmit={onSubmit} />
     );

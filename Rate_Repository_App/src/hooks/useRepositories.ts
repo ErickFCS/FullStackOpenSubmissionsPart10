@@ -1,67 +1,27 @@
-import { useQuery } from '@apollo/client';
-import { useState, useEffect } from 'react';
+import { FullRepo } from '../types';
 import { GET_REPOSITORIES } from '../graphql/querys';
-import Constants from 'expo-constants';
+import { useQuery } from '@apollo/client';
+import { useState } from 'react';
 
-interface Repo {
-    id: string;
-    name: string;
-    ownerName: string;
-    createdAt: string;
-    fullName: string;
-    description: string;
-    language: string;
-    forksCount: number;
-    stargazersCount: number;
-    ratingAverage: number;
-    reviewCount: number;
-    ownerAvatarUrl: string;
-    url: string;
-};
-
-interface Res {
-    totalCount: number;
-    edges: {
-        node: Repo;
-        cursor: string;
-    }[]
-    pageInfo: {
-        hasNextPage: number;
-        hasPreviousPage: number;
-        startCursor: string;
-        endCursor: string;
+interface RawRepositories {
+    repositories: {
+        edges: {
+            node: FullRepo;
+        }[]
     }
 }
 
-const USE_FETCH = false;
-
 const useRepositories = () => {
-    const [repositories, setRepositories] = useState<Repo[]>([]);
+    const [repositories, setRepositories] = useState<FullRepo[]>([]);
 
-    if (USE_FETCH) {
-        const [loading, setLoading] = useState(false);
-        const fetchRepositories = async () => {
-            setLoading(true);
-            const res = await fetch(Constants.expoConfig.extra.REST_URI);
-            const rawData: Res = await res.json();
-            const data = rawData.edges.map((e) => (e.node));
-            setRepositories(data);
-            setLoading(false);
-            setRepositories(data);
-        };
-        useEffect(() => {
-            fetchRepositories();
-        }, []);
-        return { repositories, loading, refetch: fetchRepositories };
-    } else {
-        const repos = useQuery(GET_REPOSITORIES, {
-            fetchPolicy: 'cache-and-network',
-            onCompleted(data) {
-                setRepositories(data.repositories?.edges?.map((e) => (e.node)));
-            },
-        });
-        return { ...repos, repositories };
-    }
+    const repos = useQuery<RawRepositories>(GET_REPOSITORIES, {
+        fetchPolicy: 'cache-and-network',
+        onCompleted(data) {
+            setRepositories(data.repositories?.edges.map((e) => (e.node)));
+        },
+    });
+
+    return { ...repos, repositories };
 };
 
 export default useRepositories;

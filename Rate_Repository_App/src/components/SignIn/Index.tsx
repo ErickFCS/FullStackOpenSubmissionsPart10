@@ -1,27 +1,24 @@
-import useSignIn from '../../hooks/useSignIn';
 import { useNavigate } from 'react-router-native';
 import SignInForm from './SignInForm';
-
+import useSignIn from '../../hooks/useSignIn';
 
 const SignIn = () => {
     const [signIn, authToken] = useSignIn();
     const navigate = useNavigate();
 
-    const onSubmit = async ({ username, password }) => {
-        console.log(username);
-        console.log(password);
+    const onSubmit = async ({ username, password }: { username: string, password: string }) => {
         try {
-            await signIn({
-                username: username,
-                password: password
-            });
-            console.log(authToken);
+            console.log('username', username);
+            console.log('password', password);
+            const result =  await signIn({ username, password });
+            console.log('authToken', result.data?.authenticate.accessToken);
             navigate('/');
         }
         catch (e: unknown) {
             console.error(e);
         }
-    }
+    };
+
     return (
         <SignInForm onSubmit={onSubmit} />
     );

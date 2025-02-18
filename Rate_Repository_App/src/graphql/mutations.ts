@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const AUTHENTICATE = gql`
 mutation Mutation($credentials: AuthenticateInput) {
@@ -6,7 +6,7 @@ mutation Mutation($credentials: AuthenticateInput) {
     accessToken
   }
 }
-`
+`;
 
 export const NEW_REVIEW = gql`
 mutation Mutation($review: CreateReviewInput) {
@@ -14,7 +14,7 @@ mutation Mutation($review: CreateReviewInput) {
     repositoryId
   }
 }
-`
+`;
 
 export const NEW_USER = gql`
 mutation Mutation($user: CreateUserInput) {
@@ -22,4 +22,4 @@ mutation Mutation($user: CreateUserInput) {
     id
   }
 }
-`
+`;

@@ -1,48 +1,9 @@
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Pressable, TextInput, View } from 'react-native';
 import { Text } from '../Text';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import styles from '../../styles';
 import theme from '../../theme';
-
-const styles = StyleSheet.create({
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'stretch',
-    },
-    input: {
-        backgroundColor: theme.colors.bsDarkBgSubtle,
-        borderColor: theme.colors.bsBorderColor,
-        borderWidth: 1,
-        padding: 10,
-        margin: 10,
-        color: theme.colors.bsInfoTextEmphasis,
-    },
-    inputError: {
-        backgroundColor: theme.colors.bsDangerBgSubtle,
-        borderColor: theme.colors.bsDangerBorderSubtle,
-        borderWidth: 1,
-        padding: 10,
-        margin: 10,
-        color: theme.colors.bsDangerTextEmphasis,
-    },
-    inputErrorText: {
-        color: theme.colors.bsDangerTextEmphasis,
-        marginStart: 20,
-        marginBottom: 10,
-    },
-    button: {
-        backgroundColor: theme.colors.bsSuccessBgSubtle,
-        borderColor: theme.colors.bsSuccessBorderSubtle,
-        borderWidth: 1,
-        padding: 12,
-        margin: 10,
-    },
-    buttonText: {
-        color: theme.colors.bsSuccessTextEmphasis,
-        textAlign: 'center'
-    },
-})
 
 const SignInForm = ({ onSubmit }) => {
     const formkit = useFormik({
@@ -51,8 +12,8 @@ const SignInForm = ({ onSubmit }) => {
             password: '',
         },
         validationSchema: Yup.object().shape({
-            username: Yup.string().required('UserName is Required'),
-            password: Yup.string().required('PassWord is Required')
+            username: Yup.string().required('Username is Required'),
+            password: Yup.string().required('Password is Required')
         }),
         onSubmit: async () => {
             onSubmit({
@@ -60,35 +21,38 @@ const SignInForm = ({ onSubmit }) => {
                 password: formkit.values.password
             });
         }
-    })
+    });
+
     return (
-        <View style={styles.container}>
+        <View style={styles.formContainer}>
             <TextInput
-                placeholder='UserName'
-                placeholderTextColor={formkit.errors.username && formkit.touched.username ? theme.colors.bsDangerTextEmphasis : theme.colors.bsInfoTextEmphasis}
-                style={formkit.errors.username && formkit.touched.username ? styles.inputError : styles.input}
-                value={formkit.values.username}
+                style={formkit.errors.username && formkit.touched.username ? styles.formInputError : styles.formInput}
+                placeholderTextColor={formkit.errors.username && formkit.touched.username ? theme.colors.DangerTextEmphasis : theme.colors.InfoTextEmphasis}
+                placeholder='Username'
                 onChangeText={formkit.handleChange('username')}
+                value={formkit.values.username}
             />
-            {formkit.errors.username && formkit.touched.username ?
-                <Text style={styles.inputErrorText}>{formkit.errors.username}</Text>
-                : null}
+            {
+                formkit.errors.username && formkit.touched.username &&
+                < Text style={styles.formInputErrorText}>{formkit.errors.username}</Text>
+            }
             <TextInput
-                placeholder='PassWord'
-                placeholderTextColor={formkit.errors.password && formkit.touched.password ? theme.colors.bsDangerTextEmphasis : theme.colors.bsInfoTextEmphasis}
+                style={formkit.errors.password && formkit.touched.password ? styles.formInputError : styles.formInput}
+                placeholderTextColor={formkit.errors.password && formkit.touched.password ? theme.colors.DangerTextEmphasis : theme.colors.InfoTextEmphasis}
+                placeholder='Password'
                 secureTextEntry
-                style={formkit.errors.password && formkit.touched.password ? styles.inputError : styles.input}
-                value={formkit.values.password}
                 onChangeText={formkit.handleChange('password')}
+                value={formkit.values.password}
             />
-            {formkit.errors.password && formkit.touched.password ?
-                <Text style={styles.inputErrorText}>{formkit.errors.password}</Text>
-                : null}
-            <Pressable style={styles.button} onPress={(e) => { formkit.handleSubmit() }}>
-                <Text style={styles.buttonText}>Sign In</Text>
+            {
+                formkit.errors.password && formkit.touched.password &&
+                <Text style={styles.formInputErrorText}>{formkit.errors.password}</Text>
+            }
+            <Pressable style={styles.formButton} onPress={(e) => { formkit.handleSubmit(); }}>
+                <Text style={styles.formButtonText}>Sign In</Text>
             </Pressable>
-        </View>
-    )
-}
+        </View >
+    );
+};
 
 export default SignInForm;

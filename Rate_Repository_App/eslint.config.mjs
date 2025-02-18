@@ -4,8 +4,9 @@ import babelOptions from '@babel/eslint-parser';
 import jest from 'eslint-plugin-jest';
 
 export default [
-    { ignores: ['dist', 'node_modules', '.expo'] },
+    { ignores: ['dist', 'node_modules', '.expo']},
     {
+        'files': ['/**/*.{js,jsx,ts,tsx}'],
         'plugins': {
             'react': react,
             'react-native': reactNative,
