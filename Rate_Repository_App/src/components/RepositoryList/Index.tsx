@@ -5,10 +5,6 @@ import { SearchFilter } from '../../types';
 const RepositoryList = () => {
     const repositories = useRepositories();
 
-    // const handleRefresh = (variables: Sort) => {
-
-    // }
-
     return (
         <RepositoryListContainer
             repositories={repositories.repositories}

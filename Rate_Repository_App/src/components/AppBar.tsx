@@ -28,6 +28,9 @@ const Appbar = () => {
                         </Link>,
                         <Link key='newReviewLink' style={styles.barNavLink} to='/newReview'>
                             <Text style={styles.barText}>Create a review</Text>
+                        </Link>,
+                        <Link key='myReviewsLink' style={styles.barNavLink} to='/myReviews'>
+                            <Text style={styles.barText}>My Reviews</Text>
                         </Link>
                     ]
                     :
