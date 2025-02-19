@@ -48,12 +48,13 @@ const ListHeaderComponent = ({ handleChange, selectedOrder, setSearchKeywordRaw 
 }
 
 interface PropType {
-    repositories: FullRepo[],
-    handleRefresh(variables: SearchFilter): void,
-    refreshing: boolean
+    repositories: FullRepo[];
+    handleRefresh(variables: SearchFilter): void;
+    refreshing: boolean;
+    handleEndReached(): void;
 }
 
-const RepositoryListContainer = ({ repositories, handleRefresh, refreshing, }: PropType) => {
+const RepositoryListContainer = ({ repositories, handleRefresh, refreshing, handleEndReached }: PropType) => {
     const navigate = useNavigate();
     const [selectedOrder, setSelectedOrder] = useState<Sort>(latestRepositories);
     const setSearchKeywordRaw = useDebouncedCallback((searchKeyword) => {
@@ -89,6 +90,8 @@ const RepositoryListContainer = ({ repositories, handleRefresh, refreshing, }: P
             }
             refreshing={refreshing}
             onRefresh={() => { handleRefresh(selectedOrder) }}
+            onEndReached={handleEndReached}
+            onEndReachedThreshold={0.5}
             ItemSeparatorComponent={() => <View style={styles.globalSeparator} />}
             keyExtractor={(item) => (item.id)}
             data={!refreshing && repositories}

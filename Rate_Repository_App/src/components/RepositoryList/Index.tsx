@@ -10,6 +10,7 @@ const RepositoryList = () => {
             repositories={repositories.repositories}
             handleRefresh={(variables: SearchFilter) => { repositories.refetch(variables) }}
             refreshing={repositories.loading}
+            handleEndReached={() =>{ repositories.fetchMore()}}
         />
     );
 };
