@@ -26,7 +26,7 @@ query Repositories($searchKeyword: String, $orderBy: AllRepositoriesOrderBy, $or
 `;
 
 export const GET_REPOSITORY = gql`
-query Repositories($repositoryId: ID!) {
+query Repositories($repositoryId: ID!, $after: String, $first: Int) {
   repository(id: $repositoryId) {
     id
     fullName
@@ -38,7 +38,7 @@ query Repositories($repositoryId: ID!) {
     reviewCount
     ownerAvatarUrl
     url
-    reviews {
+    reviews(after: $after, first: $first) {
       edges {
         node {
           id
@@ -50,6 +50,10 @@ query Repositories($repositoryId: ID!) {
             username
           }  
         }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
       }
     }
   }
